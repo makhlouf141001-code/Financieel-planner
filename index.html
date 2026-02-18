@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#111111" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <title>Financieel Planner</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">ƒ</div>
+        <div>
+          <div class="title">Financieel Planner</div>
+          <div class="subtitle" id="subtitle">Overzicht van je maand</div>
+        </div>
+      </div>
+      <button class="iconbtn" id="installBtn" title="Installeer app" hidden>
+        <span aria-hidden="true">⬇︎</span>
+      </button>
+    </header>
+
+    <nav class="tabs" role="tablist" aria-label="Navigatie">
+      <button class="tab active" data-tab="dashboard" role="tab">Dashboard</button>
+      <button class="tab" data-tab="agenda" role="tab">Agenda</button>
+      <button class="tab" data-tab="items" role="tab">Posten</button>
+      <button class="tab" data-tab="settings" role="tab">Instellingen</button>
+    </nav>
+
+    <main class="content">
+      <!-- DASHBOARD -->
+      <section class="panel active" id="dashboard" role="tabpanel">
+        <div class="grid">
+          <div class="card">
+            <div class="cardhdr">
+              <div>
+                <div class="cardtitle">Inkomen (per maand)</div>
+                <div class="cardhint">Vul je (netto) inkomen in.</div>
+              </div>
+              <button class="smallbtn" id="editIncomeBtn">Aanpassen</button>
+            </div>
+            <div class="bigmoney" id="incomeDisplay">€ 0</div>
+            <div class="row">
+              <div class="pill">
+                <div class="pilllabel">Totaal uitgaven</div>
+                <div class="pillvalue" id="totalExpenses">€ 0</div>
+              </div>
+              <div class="pill">
+                <div class="pilllabel">Over</div>
+                <div class="pillvalue good" id="leftover">€ 0</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="cardhdr">
+              <div>
+                <div class="cardtitle">Categorieën</div>
+                <div class="cardhint">Maandtotalen per categorie.</div>
+              </div>
+              <button class="smallbtn" id="addQuickBtn">+ Post</button>
+            </div>
+
+            <div class="catlist" id="categoryTotals"></div>
+          </div>
+
+          <div class="card span2">
+            <div class="cardhdr">
+              <div>
+                <div class="cardtitle">Maandbudget in 1 oogopslag</div>
+                <div class="cardhint">Visueel overzicht (geschaald).</div>
+              </div>
+              <div class="seglegend">
+                <span class="dot d-fixed"></span> Vaste lasten
+                <span class="dot d-optional"></span> Optioneel
+                <span class="dot d-debt"></span> Schulden
+                <span class="dot d-savings"></span> Spaargeld
+              </div>
+            </div>
+            <div class="segwrap" aria-label="Budgetbalk">
+              <div class="segbar" id="segbar"></div>
+            </div>
+            <div class="segfooter" id="segfooter"></div>
+          </div>
+
+          <div class="card span2">
+            <div class="cardhdr">
+              <div>
+                <div class="cardtitle">Komende posten</div>
+                <div class="cardhint">Op basis van je gekozen datum / frequentie.</div>
+              </div>
+              <button class="smallbtn" id="toAgendaBtn">Naar agenda</button>
+            </div>
+            <div class="list" id="upcomingList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AGENDA -->
+      <section class="panel" id="agenda" role="tabpanel">
+        <div class="card">
+          <div class="cardhdr">
+            <div>
+              <div class="cardtitle">Agenda (deze maand)</div>
+              <div class="cardhint">Alle geplande bedragen. Klik om te bewerken.</div>
+            </div>
+            <div class="toolbar">
+              <button class="smallbtn" id="prevMonthBtn">◀</button>
+              <div class="monthlabel" id="monthLabel"></div>
+              <button class="smallbtn" id="nextMonthBtn">▶</button>
+            </div>
+          </div>
+          <div class="agenda" id="agendaList"></div>
+        </div>
+      </section>
+
+      <!-- ITEMS -->
+      <section class="panel" id="items" role="tabpanel">
+        <div class="card">
+          <div class="cardhdr">
+            <div>
+              <div class="cardtitle">Posten</div>
+              <div class="cardhint">Vaste lasten, optioneel, schulden en spaargeld.</div>
+            </div>
+            <button class="smallbtn" id="addItemBtn">+ Nieuwe post</button>
+          </div>
+
+          <div class="filters">
+            <input class="search" id="search" placeholder="Zoek op naam…" />
+            <select id="filterType">
+              <option value="all">Alle types</option>
+              <option value="fixed">Vaste lasten</option>
+              <option value="optional">Optioneel</option>
+              <option value="debt">Schulden</option>
+              <option value="savings">Spaargeld</option>
+            </select>
+            <select id="filterFreq">
+              <option value="all">Alle frequenties</option>
+              <option value="monthly">Maandelijks</option>
+              <option value="weekly">Wekelijks</option>
+              <option value="yearly">Jaarlijks</option>
+              <option value="once">Eenmalig</option>
+            </select>
+          </div>
+
+          <div class="table" id="itemsTable"></div>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="panel" id="settings" role="tabpanel">
+        <div class="grid">
+          <div class="card">
+            <div class="cardhdr">
+              <div>
+                <div class="cardtitle">Back-up</div>
+                <div class="cardhint">Alles blijft lokaal op je apparaat. Exporteer om te bewaren.</div>
+              </div>
+            </div>
+            <div class="row">
+              <button class="btn" id="exportBtn">Exporteer data (.json)</button>
+              <label class="btn ghost" for="importFile">Importeer data</label>
+              <input id="importFile" type="file" accept="application/json" hidden />
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="cardhdr">
+              <div>
+                <div class="cardtitle">Reset</div>
+                <div class="cardhint">Verwijdert alle posten & instellingen van dit apparaat.</div>
+              </div>
+            </div>
+            <button class="btn danger" id="resetBtn">Alles wissen</button>
+          </div>
+
+          <div class="card span2">
+            <div class="cardhdr">
+              <div>
+                <div class="cardtitle">Privacy</div>
+                <div class="cardhint">Geen account nodig. Geen tracking. Geen server.</div>
+              </div>
+            </div>
+            <div class="muted">
+              Tip: als je later toch wilt syncen tussen apparaten (iPhone ↔ Mac), kan ik een “login + cloud opslag”
+              toevoegen (bijv. Supabase). Dat kan nog steeds goedkoop/gratis starten.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bottombar">
+      <div class="status" id="status">Gereed.</div>
+      <div class="mini">
+        <span class="k">Enter</span> toevoegen • <span class="k">Klik</span> bewerken
+      </div>
+    </footer>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modalback" id="modalBack" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modalhdr">
+        <div>
+          <div class="modaltitle" id="modalTitle">Nieuwe post</div>
+          <div class="modalhint" id="modalHint">Vul de gegevens in.</div>
+        </div>
+        <button class="iconbtn" id="closeModal" title="Sluiten">✕</button>
+      </div>
+
+      <form id="itemForm" class="form">
+        <input type="hidden" id="itemId" />
+
+        <div class="formrow">
+          <label>Naam</label>
+          <input id="name" required placeholder="Bijv. Huur / Telefoon / Sparen" />
+        </div>
+
+        <div class="formgrid">
+          <div class="formrow">
+            <label>Type</label>
+            <select id="type">
+              <option value="fixed">Vaste lasten</option>
+              <option value="optional">Optioneel</option>
+              <option value="debt">Schulden</option>
+              <option value="savings">Spaargeld</option>
+            </select>
+          </div>
+
+          <div class="formrow">
+            <label>Categorie</label>
+            <input id="category" placeholder="Bijv. Wonen / Abonnementen / Leningen" />
+          </div>
+        </div>
+
+        <div class="formgrid">
+          <div class="formrow">
+            <label>Bedrag (€)</label>
+            <input id="amount" inputmode="decimal" placeholder="Bijv. 120.50" required />
+          </div>
+
+          <div class="formrow">
+            <label>Frequentie</label>
+            <select id="frequency">
+              <option value="monthly">Maandelijks</option>
+              <option value="weekly">Wekelijks</option>
+              <option value="yearly">Jaarlijks</option>
+              <option value="once">Eenmalig</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formgrid">
+          <div class="formrow">
+            <label>Datum</label>
+            <input id="date" type="date" />
+            <div class="fieldhint">Voor maandelijks: kies een datum (dag van de maand wordt gebruikt).</div>
+          </div>
+          <div class="formrow">
+            <label>Notitie (optioneel)</label>
+            <input id="note" placeholder="Bijv. incasso / variabel / deelbetaling" />
+          </div>
+        </div>
+
+        <div class="formrow">
+          <label class="check">
+            <input type="checkbox" id="active" checked />
+            <span>Actief meenemen in totalen</span>
+          </label>
+        </div>
+
+        <div class="formactions">
+          <button type="button" class="btn ghost" id="deleteBtn" hidden>Verwijder</button>
+          <div class="spacer"></div>
+          <button type="button" class="btn ghost" id="cancelBtn">Annuleer</button>
+          <button type="submit" class="btn" id="saveBtn">Opslaan</button>
+        </div>
+      </form>
+
+      <form id="incomeForm" class="form" hidden>
+        <div class="formrow">
+          <label>Inkomen per maand (€)</label>
+          <input id="incomeInput" inputmode="decimal" placeholder="Bijv. 2200" required />
+        </div>
+        <div class="formactions">
+          <div class="spacer"></div>
+          <button type="button" class="btn ghost" id="incomeCancelBtn">Annuleer</button>
+          <button type="submit" class="btn">Opslaan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

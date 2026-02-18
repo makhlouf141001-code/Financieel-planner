@@ -1,0 +1,289 @@
+/* Minimal, clean, iOS-friendly UI */
+:root{
+  --bg:#0b0b0d;
+  --card:#121216;
+  --card2:#15151b;
+  --text:#f2f2f3;
+  --muted:#a8a8b3;
+  --border:rgba(255,255,255,.08);
+  --shadow:0 14px 40px rgba(0,0,0,.45);
+  --good:#35d07f;
+  --bad:#ff5a5f;
+  --warn:#ffcc00;
+  --fixed:#7aa7ff;
+  --optional:#c58bff;
+  --debt:#ff7a7a;
+  --savings:#6ee7d8;
+  --radius:18px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:radial-gradient(900px 400px at 20% -10%, rgba(122,167,255,.18), transparent),
+             radial-gradient(700px 400px at 80% 0%, rgba(197,139,255,.16), transparent),
+             radial-gradient(700px 400px at 50% 105%, rgba(110,231,216,.14), transparent),
+             var(--bg);
+  color:var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  overflow-x:hidden;
+}
+
+.app{min-height:100%; display:flex; flex-direction:column}
+
+.topbar{
+  padding:16px 16px 10px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.brand{display:flex; gap:12px; align-items:center}
+.logo{
+  width:40px;height:40px;border-radius:14px;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg, rgba(122,167,255,.22), rgba(197,139,255,.22));
+  border:1px solid var(--border);
+  font-weight:800;
+}
+.title{font-weight:800; letter-spacing:.2px}
+.subtitle{font-size:12px;color:var(--muted); margin-top:2px}
+
+.iconbtn{
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.02);
+  color:var(--text);
+  border-radius:14px;
+  padding:10px 12px;
+  cursor:pointer;
+}
+.iconbtn:active{transform:translateY(1px)}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  padding:0 10px 12px;
+  overflow:auto;
+}
+.tab{
+  white-space:nowrap;
+  padding:10px 12px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.02);
+  color:var(--muted);
+  cursor:pointer;
+  font-weight:650;
+}
+.tab.active{
+  background:rgba(255,255,255,.08);
+  color:var(--text);
+}
+
+.content{flex:1; padding:0 14px 10px}
+.panel{display:none}
+.panel.active{display:block}
+
+.grid{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:12px;
+}
+@media(min-width:900px){
+  .grid{grid-template-columns: 1fr 1fr}
+  .span2{grid-column:1 / span 2}
+}
+
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:14px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
+}
+
+.cardhdr{display:flex; align-items:flex-start; justify-content:space-between; gap:12px}
+.cardtitle{font-weight:800}
+.cardhint{font-size:12px; color:var(--muted); margin-top:4px}
+
+.smallbtn{
+  padding:9px 10px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.03);
+  color:var(--text);
+  cursor:pointer;
+}
+.smallbtn:active{transform:translateY(1px)}
+
+.bigmoney{
+  font-size:34px;
+  font-weight:900;
+  letter-spacing:-.5px;
+  margin:12px 0 6px;
+}
+
+.row{display:flex; gap:10px; flex-wrap:wrap}
+.pill{
+  flex:1;
+  min-width:160px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:10px 12px;
+  background:rgba(0,0,0,.16);
+}
+.pilllabel{font-size:12px; color:var(--muted)}
+.pillvalue{font-weight:900; font-size:18px; margin-top:4px}
+.pillvalue.good{color:var(--good)}
+.pillvalue.bad{color:var(--bad)}
+
+.catlist{margin-top:10px; display:flex; flex-direction:column; gap:8px}
+.catrow{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:10px 12px;
+  border-radius:16px;
+  border:1px solid var(--border);
+  background:rgba(0,0,0,.14);
+}
+.catname{display:flex; align-items:center; gap:8px; font-weight:700}
+.badge{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  color:var(--muted);
+}
+
+.seglegend{font-size:12px; color:var(--muted); display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+.dot{width:10px;height:10px;border-radius:99px; display:inline-block; margin-right:6px}
+.d-fixed{background:var(--fixed)}
+.d-optional{background:var(--optional)}
+.d-debt{background:var(--debt)}
+.d-savings{background:var(--savings)}
+
+.segwrap{
+  margin-top:12px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:rgba(0,0,0,.18);
+  overflow:hidden;
+  height:16px;
+}
+.segbar{height:100%; display:flex}
+.seg{height:100%}
+.segfooter{margin-top:10px; color:var(--muted); font-size:12px}
+
+.list{margin-top:10px; display:flex; flex-direction:column; gap:8px}
+.item{
+  display:flex; justify-content:space-between; gap:12px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:10px 12px;
+  background:rgba(0,0,0,.14);
+  cursor:pointer;
+}
+.item:hover{background:rgba(0,0,0,.22)}
+.itemtitle{font-weight:800}
+.itemmeta{font-size:12px; color:var(--muted); margin-top:4px}
+.money{font-weight:900; white-space:nowrap}
+.money.good{color:var(--good)}
+.money.bad{color:var(--bad)}
+
+.bottombar{
+  padding:10px 14px 14px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  color:var(--muted);
+  font-size:12px;
+}
+.k{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  padding:2px 6px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.03);
+  color:var(--text);
+}
+
+.modalback{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.55);
+  display:grid; place-items:end center;
+  padding:16px;
+}
+@media(min-width:700px){ .modalback{place-items:center} }
+.modal{
+  width:min(720px, 100%);
+  background:linear-gradient(180deg, rgba(18,18,22,.98), rgba(14,14,18,.98));
+  border:1px solid var(--border);
+  border-radius:22px;
+  box-shadow:0 30px 90px rgba(0,0,0,.65);
+  overflow:hidden;
+}
+.modalhdr{
+  display:flex; justify-content:space-between; gap:12px; align-items:flex-start;
+  padding:14px 14px 10px;
+  border-bottom:1px solid var(--border);
+}
+.modaltitle{font-weight:900}
+.modalhint{font-size:12px; color:var(--muted); margin-top:4px}
+.form{padding:14px}
+.formrow{display:flex; flex-direction:column; gap:8px; margin-bottom:12px}
+label{font-size:12px; color:var(--muted)}
+input,select{
+  padding:12px 12px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.03);
+  color:var(--text);
+  outline:none;
+  font-size:15px;
+}
+input::placeholder{color:rgba(168,168,179,.7)}
+.fieldhint{font-size:11px;color:var(--muted)}
+.formgrid{display:grid; grid-template-columns:1fr; gap:12px}
+@media(min-width:700px){ .formgrid{grid-template-columns:1fr 1fr} }
+
+.check{display:flex; align-items:center; gap:10px; cursor:pointer}
+.check input{width:18px;height:18px}
+
+.formactions{display:flex; gap:10px; align-items:center; margin-top:10px}
+.spacer{flex:1}
+
+.btn{
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.08);
+  color:var(--text);
+  cursor:pointer;
+  font-weight:800;
+}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent; border:1px solid var(--border); color:var(--text)}
+.btn.danger{background:rgba(255,90,95,.16); border-color:rgba(255,90,95,.4)}
+.toolbar{display:flex; align-items:center; gap:10px}
+.monthlabel{font-weight:900; color:var(--text); opacity:.9}
+
+.filters{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:10px;
+  margin-top:10px;
+}
+@media(min-width:700px){
+  .filters{grid-template-columns: 1fr 220px 220px}
+}
+.search{width:100%}
+
+.table{margin-top:10px; display:flex; flex-direction:column; gap:8px}
+
+.muted{color:var(--muted); line-height:1.5}
+.agenda{margin-top:10px; display:flex; flex-direction:column; gap:8px}
+
+.tag{
+  font-size:11px; padding:4px 8px; border-radius:999px;
+  border:1px solid var(--border); color:var(--muted);
+}
+.tag.fixed{border-color:rgba(122,167,255,.4); color:rgba(200,215,255,.95)}
+.tag.optional{border-color:rgba(197,139,255,.4); color:rgba(230,205,255,.95)}
+.tag.debt{border-color:rgba(255,122,122,.45); color:rgba(255,210,210,.95)}
+.tag.savings{border-color:rgba(110,231,216,.45); color:rgba(210,255,248,.95)}
