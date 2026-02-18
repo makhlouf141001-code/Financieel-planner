@@ -128,7 +128,25 @@ el("closeModal").addEventListener("click", closeModal);
 el("cancelBtn").addEventListener("click", closeModal);
 el("incomeCancelBtn").addEventListener("click", closeModal);
 modalBack.addEventListener("click", (e) => {
-  if (e.target === modalBack) closeModal();
+  // Safari/iOS kan de target anders doorgeven, dus:
+  const modal = modalBack.querySelector(".modal");
+  if (!modal) return closeModal();
+
+  // Als je buiten de modal klikt (op de donkere achtergrond): sluiten
+  if (!modal.contains(e.target)) closeModal();
+});
+
+// extra: touch support voor iPhone
+modalBack.addEventListener(
+  "touchstart",
+  (e) => {
+    const modal = modalBack.querySelector(".modal");
+    if (!modal) return closeModal();
+    if (!modal.contains(e.target)) closeModal();
+  },
+  { passive: true }
+);
+
 });
 
 /* Income */
